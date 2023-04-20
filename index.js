@@ -9,7 +9,9 @@ const generateHTML = (taskData) => {
   return `  
   <div id=${taskData.id} class="col-md-6 col-lg-4 col-sm-12 my-4">
 
-    <div class="modal fade" id="delete${taskData.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="delete${
+      taskData.id
+    }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -21,7 +23,9 @@ const generateHTML = (taskData) => {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" name=${taskData.id} onclick="deleteCard.apply(this, arguments)">Delete</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" name=${
+              taskData.id
+            } onclick="deleteCard.apply(this, arguments)">Delete</button>
           </div>
         </div>
       </div>
@@ -30,9 +34,17 @@ const generateHTML = (taskData) => {
     <div class="card-header d-sm-inline-flex justify-content-between align-items-center w-100">
       <h5 class="card-title">${taskData.title}</h5>
       <div class="d-sm-inline-flex align-items-center">
-        <i class="${taskData.class == "fav" ? "fas fa-star me-3" : "far fa-star me-3"}" role="button" style="color: #c9cc00;" name=${taskData.id} onClick="addFav.apply(this,arguments)"></i>
-        <i class="fas fa-trash-alt me-1 link-danger me-3" role="button" data-bs-toggle="modal" data-bs-target="#delete${taskData.id}"></i>
-        <i class="fas fa-edit link-primary" role="button" name=${taskData.id} onclick="editCard.apply(this, arguments)"></i>
+        <i class="${
+          taskData.class == "fav" ? "fas fa-star me-3" : "far fa-star me-3"
+        }" role="button" style="color: #c9cc00;" name=${
+    taskData.id
+  } onClick="addFav.apply(this,arguments)"></i>
+        <i class="fas fa-trash-alt me-1 link-danger me-3" role="button" data-bs-toggle="modal" data-bs-target="#delete${
+          taskData.id
+        }"></i>
+        <i class="fas fa-edit link-primary" role="button" name=${
+          taskData.id
+        } onclick="editCard.apply(this, arguments)"></i>
       </div>
     </div>
     <div class="card">
@@ -43,10 +55,16 @@ const generateHTML = (taskData) => {
       </div>
     </div>
     <div class="card-footer">
-      <button class="btn btn-outline-primary" name=${taskData.id} data-bs-toggle="modal" data-bs-target="#modal${taskData.id}">Open Task</button>
+      <button class="btn btn-outline-primary" name=${
+        taskData.id
+      } data-bs-toggle="modal" data-bs-target="#modal${
+    taskData.id
+  }">Open Task</button>
     </div>
 
-     <div class="modal fade" id="modal${taskData.id}" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+     <div class="modal fade" id="modal${
+       taskData.id
+     }" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +72,9 @@ const generateHTML = (taskData) => {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <img src="${taskData.image}" height=300 style="width: 100%; text-align: center;" class="rounded" alt="image">
+              <img src="${
+                taskData.image
+              }" height=300 style="width: 100%; text-align: center;" class="rounded" alt="image">
               <h3 class="my-2">Description</h3>
               <p>${taskData.description}</p>
               <h3 class="my-2">Event Type</h3>
@@ -70,8 +90,8 @@ const generateHTML = (taskData) => {
   </div>`;
 };
 
-//insert newCard at last 
-const insertToDOM = (newCard) =>{
+//insert newCard at last
+const insertToDOM = (newCard) => {
   return taskContainer.insertAdjacentHTML("beforeend", newCard);
 };
 
@@ -81,17 +101,18 @@ const updateLocalStorage = () => {
   let users = JSON.parse(localStorage.getItem("taskySidUser")).users;
 
   curUser.cards = taskStorage;
-  for(let i = 0 ; i < users.length; i++)
-  {
-    if(users[i].email == curUser.email)
-    {
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email == curUser.email) {
       users[i] = curUser;
       break;
     }
   }
-  localStorage.setItem("taskySidUser", JSON.stringify({users: users}));
-  localStorage.setItem("taskySidLoginUser", JSON.stringify({loginUser: curUser}));
-}
+  localStorage.setItem("taskySidUser", JSON.stringify({ users: users }));
+  localStorage.setItem(
+    "taskySidLoginUser",
+    JSON.stringify({ loginUser: curUser })
+  );
+};
 
 // updating the users and curUser in local storage with new favorite cards
 const updateFavLocalStorage = () => {
@@ -99,35 +120,40 @@ const updateFavLocalStorage = () => {
   let users = JSON.parse(localStorage.getItem("taskySidUser")).users;
 
   curUser.favCards = favTaskStorage;
-  for(let i = 0 ; i < users.length; i++)
-  {
-    if(users[i].email == curUser.email)
-    {
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email == curUser.email) {
       users[i] = curUser;
       break;
     }
   }
-  localStorage.setItem("taskySidUser", JSON.stringify({users: users}));
-  localStorage.setItem("taskySidLoginUser", JSON.stringify({loginUser: curUser}));
-}
+  localStorage.setItem("taskySidUser", JSON.stringify({ users: users }));
+  localStorage.setItem(
+    "taskySidLoginUser",
+    JSON.stringify({ loginUser: curUser })
+  );
+};
 
 //reload favorites cards
 const loadFavorites = () => {
   taskContainer.replaceChildren();
   document.getElementById("nav-fav").setAttribute("class", "nav-link active");
   document.getElementById("nav-home").setAttribute("class", "nav-link");
-  localStorage.setItem("taskySidCurPage", JSON.stringify({activePage: "fav"}));
+  localStorage.setItem(
+    "taskySidCurPage",
+    JSON.stringify({ activePage: "fav" })
+  );
 
-  const curUser = JSON.parse(localStorage.getItem("taskySidLoginUser")).loginUser;
+  const curUser = JSON.parse(
+    localStorage.getItem("taskySidLoginUser")
+  ).loginUser;
 
   favTaskStorage = (curUser && curUser != null && curUser.favCards) || [];
 
   // console.log(favTaskStorage);
 
-  if(favTaskStorage.length == 0)
-  {
+  if (favTaskStorage.length == 0) {
     insertToDOM(`<h3 class="text-muted">No items in Favorites Section</h3>`);
-    return ;
+    return;
   }
 
   favTaskStorage.map((taskData) => {
@@ -137,23 +163,26 @@ const loadFavorites = () => {
   });
 
   return;
-}
-
+};
 
 //reloading existing cards
 const reloadLocalStorage = () => {
   taskContainer.replaceChildren();
   document.getElementById("nav-home").setAttribute("class", "nav-link active");
   document.getElementById("nav-fav").setAttribute("class", "nav-link");
-  localStorage.setItem("taskySidCurPage", JSON.stringify({activePage: "home"}));
+  localStorage.setItem(
+    "taskySidCurPage",
+    JSON.stringify({ activePage: "home" })
+  );
 
-  const curUser = JSON.parse(localStorage.getItem("taskySidLoginUser")).loginUser;
-  
+  const curUser = JSON.parse(
+    localStorage.getItem("taskySidLoginUser")
+  ).loginUser;
+
   taskStorage = (curUser && curUser != null && curUser.cards) || [];
-  if(taskStorage.length == 0)
-  {
+  if (taskStorage.length == 0) {
     insertToDOM(`<h3 class="text-muted">No items in Home Section</h3>`);
-    return ;
+    return;
   }
 
   taskStorage.map((taskData) => {
@@ -163,38 +192,39 @@ const reloadLocalStorage = () => {
   });
 
   return;
-  
 };
 
 const logout = () => {
-  localStorage.setItem("taskySidLoginUser", JSON.stringify({loginUser: null}))
-}
+  localStorage.setItem(
+    "taskySidLoginUser",
+    JSON.stringify({ loginUser: null })
+  );
+};
 
 const reloadStorage = () => {
   let curUser = JSON.parse(localStorage.getItem("taskySidLoginUser")).loginUser;
   // console.log(curUser);
-  if(!curUser || curUser == null)
-  {
+  if (!curUser || curUser == null) {
     document.getElementById("body").replaceChildren();
-    document.getElementById("body").innerHTML = 
-    `<h3 class="mx-5">Unauthorized Access</h3>
-     <a href="/login.html" class="mx-5 btn btn-primary btn-block login-btn">Login</a>`
-     return;
+    document.getElementById(
+      "body"
+    ).innerHTML = `<h3 class="mx-5">Unauthorized Access</h3>
+     <a href="/login.html" class="mx-5 btn btn-primary btn-block login-btn">Login</a>`;
+    return;
   }
 
-  document.getElementById("username").innerHTML = `Welcome Back ${JSON.parse(localStorage.getItem("taskySidLoginUser")).loginUser.name} !`
+  document.getElementById("username").innerHTML = `Welcome Back ${
+    JSON.parse(localStorage.getItem("taskySidLoginUser")).loginUser.name
+  } !`;
   const activePage = localStorage.getItem("taskySidCurPage");
-  if(!activePage)
-  {
+  if (!activePage) {
     reloadLocalStorage();
     return;
   }
   const curPage = JSON.parse(activePage).activePage;
-  if(curPage == "fav")
-  loadFavorites();
-  else
-  reloadLocalStorage();  
-}
+  if (curPage == "fav") loadFavorites();
+  else reloadLocalStorage();
+};
 
 //get task
 
@@ -205,12 +235,20 @@ const addNewCard = () => {
     image: document.getElementById("imageurl").value,
     type: document.getElementById("taskType").value,
     description: document.getElementById("des").value,
-    class: ""
+    class: "",
   };
- 
+
+  if (
+    taskData.title.length == 0 ||
+    taskData.image.length == 0 ||
+    taskData.type.length == 0 ||
+    taskData.description.length == 0
+  )
+    return;
+
   taskStorage.push(taskData);
 
-  updateLocalStorage();  
+  updateLocalStorage();
   reloadLocalStorage();
 
   // const newCard = generateHTML(taskData);
@@ -231,68 +269,60 @@ const addFav = (event) => {
   let c = 0;
   const task_id = event.target.getAttribute("name");
   console.log(task_id);
-  for(let i = 0 ; i < favTaskStorage.length ; i++)
-  {
+  for (let i = 0; i < favTaskStorage.length; i++) {
     const task = favTaskStorage[i];
-    if(task.id.toString() == task_id.toString())
-    {
+    if (task.id.toString() == task_id.toString()) {
       c = c + 1;
       favTaskStorage.splice(i, 1);
       break;
     }
   }
-  if(c == 0)
-  {
+  if (c == 0) {
     let task;
-    for(let i = 0 ; i < taskStorage.length ; i++)
-    {
+    for (let i = 0; i < taskStorage.length; i++) {
       // console.log(taskStorage[i].id);
-      if(taskStorage[i].id.toString() == task_id)
-      {
-        taskStorage[i].class = "fav"
+      if (taskStorage[i].id.toString() == task_id) {
+        taskStorage[i].class = "fav";
         task = taskStorage[i];
         break;
       }
     }
     // console.log(task);
-    event.target.setAttribute("class", "fas fa-star me-3")
-    if(task)
-    favTaskStorage.push(task);
-  }
-  else
-  {
-    for(let i = 0 ; i < taskStorage.length ; i++)
-    {
-      if(taskStorage[i].id.toString() == task_id)
-      {
-        taskStorage[i].class = ""
+    event.target.setAttribute("class", "fas fa-star me-3");
+    if (task) favTaskStorage.push(task);
+  } else {
+    for (let i = 0; i < taskStorage.length; i++) {
+      if (taskStorage[i].id.toString() == task_id) {
+        taskStorage[i].class = "";
         break;
       }
     }
-    event.target.setAttribute("class", "far fa-star me-3")
+    event.target.setAttribute("class", "far fa-star me-3");
   }
   updateFavLocalStorage();
   updateLocalStorage();
 
   reloadStorage();
-}
+};
 
 const deleteCard = (event) => {
   const targetID = event.target.getAttribute("name");
 
-  const parentElement = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+  const parentElement =
+    event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
 
-  const updatedArray = taskStorage.filter((taskData) => taskData.id !== targetID);
+  const updatedArray = taskStorage.filter(
+    (taskData) => taskData.id !== targetID
+  );
 
   taskStorage = updatedArray;
   updateLocalStorage();
   reloadLocalStorage();
 
   return;
-
 };
 
-const editCard = (event) =>{
+const editCard = (event) => {
   const parentElement = event.target.parentNode.parentNode.parentNode;
 
   let taskTitle = parentElement.childNodes[3].childNodes[1];
@@ -307,7 +337,6 @@ const editCard = (event) =>{
   changeButton.removeAttribute("data-bs-toggle");
 
   changeButton.setAttribute("onclick", "saveEdit.apply(this, arguments)");
-
 };
 
 const saveEdit = (event) => {
@@ -322,13 +351,18 @@ const saveEdit = (event) => {
   let changeButton = parentElement.childNodes[7].childNodes[1];
 
   //open task modal
-  let openTaskTitle = parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[1].childNodes[1];
-  let openTaskType = parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[3].childNodes[9];
-  let openTaskDes = parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[3].childNodes[5];
+  let openTaskTitle =
+    parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[1]
+      .childNodes[1];
+  let openTaskType =
+    parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[3]
+      .childNodes[9];
+  let openTaskDes =
+    parentElement.childNodes[9].childNodes[1].childNodes[1].childNodes[3]
+      .childNodes[5];
 
-  taskStorage.forEach((task) =>{
-    if(task.id === targetID)
-    {
+  taskStorage.forEach((task) => {
+    if (task.id === targetID) {
       //changes in main card
       task.title = taskTitle.innerHTML;
       task.type = taskType.innerHTML;
@@ -352,18 +386,15 @@ const saveEdit = (event) => {
   changeButton.setAttribute("data-bs-toggle", "modal");
 
   return;
-
 };
 
-const searchFunction = () =>{
+const searchFunction = () => {
   let searchInput = document.getElementById("searchbar").value.toUpperCase();
 
   taskStorage.forEach((taskData) => {
-    if(taskData.title.toUpperCase().indexOf(searchInput) >= 0)
-    {
+    if (taskData.title.toUpperCase().indexOf(searchInput) >= 0) {
       document.getElementById(taskData.id).style.display = "";
-    }
-    else{
+    } else {
       document.getElementById(taskData.id).style.display = "none";
     }
   });
